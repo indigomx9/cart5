@@ -1,8 +1,8 @@
 import React from "react";
 import Head from "next/head";
-import Link from "next/link";
 import { Title } from "../components/Title";
 import { getProducts } from "../global/FetchAPI.JS";
+import { ProductCard } from "../components/ProductCard";
 
 export async function getStaticProps() {
     console.log("[HomePage] getStaticProps()");
@@ -14,19 +14,17 @@ export async function getStaticProps() {
 };
 
 export default function Index({ products }) {
-    console.log("[HomePage] server render:", products);
+    console.log("[HomePage] ServerRender:", products);
     return (
         <React.StrictMode>
             <Head><title>Next Shop</title></Head>
             <main className="p-1">
                 <Title>Next Shop</Title>
             </main>
-            <ul>
+            <ul className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 {products.map((product) => (
                     <li key={product.id}>
-                        <Link href={`/products/${product.id}`}>
-                            <a>{product.title}</a>
-                        </Link>
+                        <ProductCard product={product} />
                     </li>
                 ))}
             </ul>

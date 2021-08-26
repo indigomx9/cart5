@@ -29,6 +29,7 @@ export async function getStaticProps({params: {id}}) {
         throw error;
     }
 };
+
 export default function ProductPage({product}) {
     console.log("[ProductPage] render:", product);
     return (
