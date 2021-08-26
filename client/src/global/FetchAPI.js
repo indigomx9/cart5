@@ -1,18 +1,40 @@
+export class APIError extends Error {
+    constructor(URL, status) {
+        super(`'${URL}' returned ${status}`);
+        if (Error.captureStackTrace) {
+            Error.captureStackTrace(this, APIError);
+        };
+        this.name = "APIError";
+        this.status = status;
+    };
+};
+
+async function fetchJSON(URL) {
+    const res = await fetch(URL);
+    if (!res.ok) {
+        throw new APIError(URL, res.status);
+    };
+    return await res.json();
+};
+
+const { CMS_URL } = process.env;
+export async function getProduct(id) {
+    const product = await fetchJSON(`${CMS_URL}/${id}`);    
+    return stripProduct(product);
+};
+
+export async function getProducts() {
+    const products = await fetchJSON(CMS_URL);
+    return products.map(stripProduct);
+};
+
 function stripProduct(product) {
     return {
         id: product.id,
         title: product.title,
+        description: product.description,
     };
 };
-
-const URL = "http://localhost:1337/products";
-export async function getProducts() {
-    const res = await fetch(URL);
-    const products = await res.json();
-    return products.map(stripProduct);
-};
-
-
 
 
 

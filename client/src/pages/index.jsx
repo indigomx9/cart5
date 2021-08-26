@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import Link from "next/link";
 import { Title } from "../components/Title";
 import { getProducts } from "../global/FetchAPI.JS";
 
@@ -8,7 +9,7 @@ export async function getStaticProps() {
     const products = await getProducts();
     return {
         props: { products },
-        revalidate: 5 * 60, // 5-minutes
+        revalidate: parseInt(process.env.REVALIDATE_SECONDS),
     };
 };
 
@@ -23,7 +24,9 @@ export default function Index({ products }) {
             <ul>
                 {products.map((product) => (
                     <li key={product.id}>
-                        {product.title}
+                        <Link href={`/products/${product.id}`}>
+                            <a>{product.title}</a>
+                        </Link>
                     </li>
                 ))}
             </ul>
