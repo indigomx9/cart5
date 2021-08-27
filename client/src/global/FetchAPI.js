@@ -9,8 +9,8 @@ export class APIError extends Error {
     };
 };
 
-async function fetchJSON(URL) {
-    const res = await fetch(URL);
+export async function fetchJSON(URL, options) {
+    const res = await fetch(URL, options);
     if (!res.ok) {
         throw new APIError(URL, res.status);
     };

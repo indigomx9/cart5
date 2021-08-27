@@ -1,6 +1,5 @@
 import React from "react";
-import Head from "next/head";
-import { Title } from "../components/Title";
+import { Page } from "../components/Page";
 import { getProducts } from "../global/FetchAPI.JS";
 import { ProductCard } from "../components/ProductCard";
 
@@ -16,11 +15,7 @@ export async function getStaticProps() {
 export default function Index({ products }) {
     console.log("[HomePage] ServerRender:", products);
     return (
-        <React.StrictMode>
-            <Head><title>Next Shop</title></Head>
-            <main className="p-1">
-                <Title>Next Shop</Title>
-            </main>
+        <Page title="Indoor Plants">
             <ul className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 {products.map((product) => (
                     <li key={product.id}>
@@ -28,7 +23,7 @@ export default function Index({ products }) {
                     </li>
                 ))}
             </ul>
-        </React.StrictMode>
+        </Page>
     );
 };
 
