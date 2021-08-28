@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import { Title } from "./Title";
+import { NavBar } from "./NavBar";
 
 export const Page = ({ title, children }) => {
     return (
@@ -8,6 +9,7 @@ export const Page = ({ title, children }) => {
             <Head>
                 <title>{ title } - Next Shop</title>
             </Head>
+            <header><NavBar /></header>
             <main className="px-6 py-4">
                 <Title>{ title }</Title>
                 { children }

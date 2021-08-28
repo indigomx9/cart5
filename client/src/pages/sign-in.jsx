@@ -4,8 +4,10 @@ import { Input } from "../components/Input";
 import { Field } from "../components/Field";
 import { Button } from "../components/Button";
 import { fetchJSON } from "../global/FetchAPI";
+import { useRouter } from "next/router";
 
 export default function SignIn() {
+    const router = useRouter();
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [status, setStatus] = React.useState({
@@ -16,17 +18,14 @@ export default function SignIn() {
         event.preventDefault();
         setStatus({ loading: true, error: false });
         try {
-            const URL = "http://localhost:1337/auth/local";
-            const res = await fetchJSON(URL, {
+            const res = await fetchJSON("/api/login", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({
-                    identifier: email,
-                    password: password
-                }),
+                body: JSON.stringify({ email, password }),
             });
             setStatus({ loading: false, error: false });
             console.log("sign in:", res);
+            router.push("/");
         } catch (error) {
             setStatus({ loading: false, error: true });
         }
