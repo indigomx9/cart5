@@ -3,32 +3,21 @@ import { Page } from "../components/Page";
 import { Input } from "../components/Input";
 import { Field } from "../components/Field";
 import { Button } from "../components/Button";
-import { fetchJSON } from "../global/FetchAPI";
 import { useRouter } from "next/router";
+import { useSignIn } from "../hooks/UserHooks";
 
 export default function SignIn() {
     const router = useRouter();
+    const { signInError, signInLoading, signIn } = useSignIn();
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
-    const [status, setStatus] = React.useState({
-        loading: false, error: false
-    });
-
+    
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setStatus({ loading: true, error: false });
-        try {
-            const res = await fetchJSON("/api/login", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({ email, password }),
-            });
-            setStatus({ loading: false, error: false });
-            console.log("sign in:", res);
+        const valid = await signIn(email, password);
+        if (valid) {
             router.push("/");
-        } catch (error) {
-            setStatus({ loading: false, error: true });
-        }
+        };
     };
 
     return (
@@ -50,12 +39,12 @@ export default function SignIn() {
                     onChange={(event) => setPassword(event.target.value)}
                 />
             </Field>
-            {status.error && (
+            {signInError && (
                 <p className="text-red-700">
                     Invalid credentials
                 </p>
             )}
-            {status.loading ? (
+            {signInLoading ? (
                 <p>Loading...</p>
             ) : (
                 <Button type="submit">

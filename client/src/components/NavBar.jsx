@@ -1,23 +1,14 @@
 import React from "react";
 import Link from "next/link";
 import { fetchJSON } from "../global/FetchAPI";
+import { useUser } from "../hooks/UserHooks";
 
 export const NavBar = () => {
-    const [user, setUser] = React.useState();
-    React.useEffect(() => {
-        (async () => {
-            try {
-                const user = await fetchJSON("/api/user");
-                setUser(user);
-            } catch (error) {
-                // not signed in.
-            };
-        })();
-    }, []);
+    const user = useUser();
     
     const handleSignOut = async () => {
         await fetchJSON("/api/logout");
-        setUser(undefined);
+        // FIXME setUser(undefined);
     };
 
     console.log("[NavBar] user:", user);

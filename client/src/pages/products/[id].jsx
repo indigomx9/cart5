@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { Page } from "../../components/Page";
+import { Page } from "../../components/Page";;
 import { APIError, getProduct, 
     getProducts } from "../../global/FetchAPI";
 
