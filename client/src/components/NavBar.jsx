@@ -1,16 +1,10 @@
 import React from "react";
 import Link from "next/link";
-import { fetchJSON } from "../global/FetchAPI";
-import { useUser } from "../hooks/UserHooks";
+import { useSignOut, useUser } from "../hooks/UserHooks";
 
 export const NavBar = () => {
     const user = useUser();
-    
-    const handleSignOut = async () => {
-        await fetchJSON("/api/logout");
-        // FIXME setUser(undefined);
-    };
-
+    const signOut = useSignOut();
     console.log("[NavBar] user:", user);
 
     return (
@@ -24,9 +18,17 @@ export const NavBar = () => {
                 <li role="separator" className="flex-1" />
                 {user ? (
                     <React.Fragment>
+                        <li>
+                            <Link href="/cart">
+                                <a>Cart</a>
+                            </Link>
+                        </li>
                         <li>{user.name}</li>
                         <li>
-                            <button onClick={handleSignOut}>Sign Out</button>
+                            <button 
+                                onClick={signOut}
+                                >Sign Out
+                            </button>
                         </li>
                     </React.Fragment>
                 ) : (
